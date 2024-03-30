@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watch } from "vue";
+import CountdownCard from "./components/CountdownCard.vue";
 
 const currentTime = ref(new Date().getTime());
 const targetDate = new Date();
@@ -44,10 +45,13 @@ watch(
     days : {{ days }} hours : {{ hours }} minutes : {{ minutes }} seconds :
     {{ seconds }}
   </h1>
+<CountdownCard :days="days" :hours="hours" :minutes="minutes" :seconds="seconds" />
 </template>
 <style scoped>
 h1 {
   text-transform: uppercase;
   text-align: center;
 }
+
+
 </style>
