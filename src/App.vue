@@ -39,8 +39,15 @@ watch(
 );
 </script>
 <template>
+  <h1>We're launching soon</h1>
   <h1>
     days : {{ days }} hours : {{ hours }} minutes : {{ minutes }} seconds :
     {{ seconds }}
   </h1>
 </template>
+<style scoped>
+h1 {
+  text-transform: uppercase;
+  text-align: center;
+}
+</style>
