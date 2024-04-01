@@ -7,11 +7,24 @@ targetTime.value.setDate(targetTime.value.getDate() + 2);
 targetTime.value.setHours(0, 0, 0, 0);
 
 const currentTime = ref(new Date().getTime());
-const oldDigit = ref(0);
+
+// Initialisation des références pour les anciennes valeurs
+const oldDays = ref(0);
+const oldHours = ref(0);
+const oldMinutes = ref(0);
+const oldSeconds = ref(0);
+
 const updateCurrentTime = () => {
+  // Stockage des valeurs actuelles avant la mise à jour
+  oldDays.value = days.value;
+  oldHours.value = hours.value;
+  oldMinutes.value = minutes.value;
+  oldSeconds.value = seconds.value;
+
   currentTime.value = new Date().getTime();
 };
-const timerId = setInterval(updateCurrentTime, 1000);
+
+const timerId = setInterval(updateCurrentTime, 100);
 
 onUnmounted(() => {
   clearInterval(timerId);
@@ -20,6 +33,7 @@ onUnmounted(() => {
 const timeRemaining = computed(
   () => targetTime.value.getTime() - currentTime.value
 );
+
 const days = computed(() =>
   Math.floor(timeRemaining.value / (1000 * 60 * 60 * 24))
 );
@@ -40,13 +54,22 @@ const flipState = {
 
 const triggerFlip = (unit: keyof typeof flipState) => {
   flipState[unit].value = !flipState[unit].value;
-  setTimeout(() => (flipState[unit].value = false), 1000);
+  setTimeout(() => (flipState[unit].value = false), 250);
 };
 
-watch(days, () => triggerFlip("days"));
-watch(hours, () => triggerFlip("hours"));
-watch(minutes, () => triggerFlip("minutes"));
-watch(seconds, () => triggerFlip("seconds"));
+// Utilisation des watch pour déclencher les animations en fonction des anciennes valeurs
+watch(days, (newVal, oldVal) => {
+  if (newVal !== oldVal) triggerFlip("days");
+});
+watch(hours, (newVal, oldVal) => {
+  if (newVal !== oldVal) triggerFlip("hours");
+});
+watch(minutes, (newVal, oldVal) => {
+  if (newVal !== oldVal) triggerFlip("minutes");
+});
+watch(seconds, (newVal, oldVal) => {
+  if (newVal !== oldVal) triggerFlip("seconds");
+});
 </script>
 <template>
   <div class="container">
@@ -56,22 +79,26 @@ watch(seconds, () => triggerFlip("seconds"));
       <FlipCard
         :unit="'days'"
         :digit="days"
+        :oldDigit="oldDays"
         :flip="flipState.days.value"
       />
       <FlipCard
         :unit="'hours'"
         :digit="hours"
+        :oldDigit="oldHours"
         :flip="flipState.hours.value"
       />
       <FlipCard
         :unit="'minutes'"
         :digit="minutes"
+        :oldDigit="oldMinutes"
         :flip="flipState.minutes.value"
       />
 
       <FlipCard
         :unit="'seconds'"
         :digit="seconds"
+        :oldDigit="oldSeconds"
         :flip="flipState.seconds.value"
       />
     </div>
