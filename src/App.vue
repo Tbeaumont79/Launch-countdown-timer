@@ -76,31 +76,42 @@ watch(seconds, (newVal, oldVal) => {
     <h1>We're launching soon</h1>
 
     <div class="countdown-timer">
-      <FlipCard
-        :unit="'days'"
-        :digit="days"
-        :oldDigit="oldDays"
-        :flip="flipState.days.value"
-      />
-      <FlipCard
-        :unit="'hours'"
-        :digit="hours"
-        :oldDigit="oldHours"
-        :flip="flipState.hours.value"
-      />
-      <FlipCard
-        :unit="'minutes'"
-        :digit="minutes"
-        :oldDigit="oldMinutes"
-        :flip="flipState.minutes.value"
-      />
-
-      <FlipCard
-        :unit="'seconds'"
-        :digit="seconds"
-        :oldDigit="oldSeconds"
-        :flip="flipState.seconds.value"
-      />
+      <div class="time-card">
+        <FlipCard
+          :unit="'days'"
+          :digit="days"
+          :oldDigit="oldDays"
+          :flip="flipState.days.value"
+        />
+        <p>Days</p>
+      </div>
+      <div class="time-card">
+        <FlipCard
+          :unit="'hours'"
+          :digit="hours"
+          :oldDigit="oldHours"
+          :flip="flipState.hours.value"
+        />
+        <p>Hours</p>
+      </div>
+      <div class="time-card">
+        <FlipCard
+          :unit="'minutes'"
+          :digit="minutes"
+          :oldDigit="oldMinutes"
+          :flip="flipState.minutes.value"
+        />
+        <p>Minutes</p>
+      </div>
+      <div class="time-card">
+        <FlipCard
+          :unit="'seconds'"
+          :digit="seconds"
+          :oldDigit="oldSeconds"
+          :flip="flipState.seconds.value"
+        />
+        <p>Seconds</p>
+      </div>
     </div>
     <img src="/images/pattern-hills.svg" alt="" />
   </div>
@@ -110,13 +121,28 @@ watch(seconds, (newVal, oldVal) => {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  gap: 5rem;
-  justify-content: flex-start;
+  justify-content: center;
+  gap: 2rem;
   align-items: center;
 }
 .countdown-timer {
   display: flex;
-  gap: 1rem;
+  gap: 2rem;
+}
+.time-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+}
+.time-card p {
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5em;
+  color: var(--vt-c-primary);
+  filter: opacity(0.8);
 }
 h1 {
   text-transform: uppercase;
